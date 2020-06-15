@@ -1,5 +1,5 @@
 // JSON data
-let data = {
+const data = {
     "help": "https://data.kcg.gov.tw/api/3/action/help_show?name=datastore_search",
     "success": true,
     "result": {
@@ -2587,10 +2587,10 @@ let data = {
 };
 // 全域變數、DOM
 let area = []; //只存取不重複的行政區資料
-let chooseArea = document.getElementById('chooseArea');
-let famousArea = document.querySelector('.famousAreaLink');
-let list = document.querySelector('.list');
-let pageId = document.getElementById('pageId');
+const chooseArea = document.getElementById('chooseArea');
+const famousArea = document.querySelector('.famousAreaLink');
+const list = document.querySelector('.list');
+const pageId = document.getElementById('pageId');
 let spot = []; //儲存撈出的景點資訊
 let dataPerPage = []; //每頁顯示的資料
 
@@ -2612,7 +2612,7 @@ addArea();
 function show() {
     spot = []; //每次選擇區域後先清空陣列內容
     dataPerPage = [];
-    let selectedArea = chooseArea.value;
+    const selectedArea = chooseArea.value;
     document.querySelector('.areaName').textContent = selectedArea;
     getSpotInfo(selectedArea); //從JSON中撈出景點資訊並存入spot[]
     pagination(spot, 1); // 計算共有幾頁並撈出第一頁4筆資料存入dataPerPage[]
@@ -2622,12 +2622,12 @@ function show() {
 
 function showFamous(e) {
     e.preventDefault();
-    let clickTarget = e.target.nodeName;
+    const clickTarget = e.target.nodeName;
     if (clickTarget === 'A') {
         spot = []; //每次選擇區域後先清空陣列內容
         dataPerPage = [];
 
-        let selectedArea = e.target.dataset.famous;
+        const selectedArea = e.target.dataset.famous;
 
         document.querySelector('.areaName').textContent = selectedArea;
         getSpotInfo(selectedArea); //從JSON中撈出景點資訊並存入spot[]
@@ -2640,7 +2640,7 @@ function showFamous(e) {
 // 從data中存取行政區陣列
 function getArea() {
     let areaList = []; //乾淨的行政區陣列(包含重複)
-    let dataLen = data["result"]["records"].length;
+    const dataLen = data["result"]["records"].length;
     for (let i = 0; i < dataLen; i++) {
         areaList.push(data["result"]["records"][i].Zone);
     }
@@ -2663,7 +2663,7 @@ function addArea() {
 
 // 撈出景點資訊
 function getSpotInfo(area) {
-    let dataLen = data["result"]["records"].length;
+    const dataLen = data["result"]["records"].length;
     let spotInfo = {};
     for (let i = 0; i < dataLen; i++) {
         if (data["result"]["records"][i].Zone === area) {
@@ -2686,42 +2686,33 @@ function updateList(item) {
     let dataLen = item.length;
     let str = '';
     for (let i = 0; i < dataLen; i++) {
-        str += '<div class="col-md-6 mb-4">' +
-            '<div class="card h-100">' +
-            '<div class="card-header bg-cover d-flex align-items-end justify-content-between" style="background-position: center center; min-height: 155px; background-image: url(' + item[i].Pic + ');">' +
-            '<h4 class="card-title text-white mb-0">' + item[i].Name + '</h4>' +
-            '<h6 class="text-white mb-0">' + item[i].Zone + '</h6>' +
-            '</div>' +
-            '<div class="card-body">' +
-            '<div class="info">' +
-            '<div class="d-flex align-items-center mb-2">' +
-            '<img class="img-fluid" src="img/icons_clock.png" alt="" style="margin-right:8px;">' +
-            '<p class="mb-0">' + item[i].Opentime + '</p>' +
-            '</div>' +
-            '<div class="d-flex align-items-center mb-2">' +
-            '<img class="img-fluid" src="img/icons_pin.png" alt="" style="margin-right:10px;">' +
-            '<p class="mb-0">' + item[i].Address + '</p>' +
-            '</div>' +
-            '<div class="d-flex align-items-center mb-2">' +
-            '<img class="img-fluid" src="img/icons_phone.png" alt="" style="margin-left: 2px; margin-right:14px;">' +
-            '<p class="mb-0">' + item[i].Tel + '</p>' +
-            '</div>' +
-            '</div>' +
-            '<div class="tag">' +
-            '<img src="img/icons_tag.png" alt="">' +
-            '<span class="ml-2">' + item[i].Ticket + '</span>' +
-            '</div>' +
-            '</div>' +
-            '</div>' +
-            '</div>'
+        str += `<div class="col-md-6 mb-4">
+        <div class="card h-100">
+        <div class="card-header bg-cover d-flex align-items-end justify-content-between" style="background-position: center center; min-height: 155px; background-image: url(${item[i].Pic});">
+        <h4 class="card-title text-white mb-0">${item[i].Name}</h4>
+        <h6 class="text-white mb-0">${item[i].Zone}</h6></div>
+        <div class="card-body">
+        <div class="info">
+        <div class="d-flex align-items-center mb-2">
+        <img class="img-fluid" src="img/icons_clock.png" alt="" style="margin-right:8px;">
+        <p class="mb-0">${item[i].Opentime}</p></div>
+        <div class="d-flex align-items-center mb-2">
+        <img class="img-fluid" src="img/icons_pin.png" alt="" style="margin-right:10px;">
+        <p class="mb-0">${item[i].Address}</p></div>
+        <div class="d-flex align-items-center mb-2">
+        <img class="img-fluid" src="img/icons_phone.png" alt="" style="margin-left: 2px; margin-right:14px;">
+        <p class="mb-0">${item[i].Tel}</p></div></div>
+        <div class="tag">
+        <img src="img/icons_tag.png" alt="">
+        <span class="ml-2">${item[i].Ticket}</span></div></div></div></div>`
     }
     list.innerHTML = str;
 }
 
 // 分頁
 function pagination(data, nowPage) {
-    let dataTotal = data.length; // 總筆數
-    let perPage = 4; // 每頁要顯示的筆數
+    const dataTotal = data.length; // 總筆數
+    const perPage = 4; // 每頁要顯示的筆數
     let pageTotal = Math.ceil(dataTotal / perPage); // 總頁數
     let currentPage = nowPage; // 當前頁數
 
@@ -2754,23 +2745,23 @@ function pageBtn(page) {
     let total = page.pageTotal; //總頁數
 
     if (page.hasPrevious) { //判斷是否有前一頁
-        str += '<li class="page-item"><a href="#" class="page-link" data-page="' + (Number(page.currentPage) - 1) + '"><i data-page="' + (Number(page.currentPage) - 1) + '"class="fas fa-angle-left"></i></a></li>';
+        str += `<li class="page-item"><a href="#" class="page-link" data-page="${(Number(page.currentPage) - 1)}"><i data-page="${(Number(page.currentPage) - 1)}"class="fas fa-angle-left"></i></a></li>`;
     } else {
-        str += '<li class="page-item disabled"><span class="page-link"><i class="fas fa-angle-left"></i></span></li>';
+        str += `<li class="page-item disabled"><span class="page-link"><i class="fas fa-angle-left"></i></span></li>`;
     }
 
     for (let i = 1; i <= total; i++) {
         if (Number(page.currentPage) === i) {
-            str += '<li class="page-item active"><a class="page-link" href="#" data-page="' + i + '">' + i + '</a></li>';
+            str += `<li class="page-item active"><a class="page-link" href="#" data-page="${i}">${i}</a></li>`;
         } else {
-            str += '<li class="page-item"><a class="page-link" href="#" data-page="' + i + '">' + i + '</a></li>';
+            str += `<li class="page-item"><a class="page-link" href="#" data-page="${i}">${i}</a></li>`;
         }
     }
 
     if (page.hasNext) { //判斷是否有下一頁
-        str += '<li class="page-item"><a href="#" class="page-link" data-page="' + (Number(page.currentPage) + 1) + '"><i data-page="' + (Number(page.currentPage) + 1) + '"class="fas fa-angle-right"></i></a></li>';
+        str += `<li class="page-item"><a href="#" class="page-link" data-page="${(Number(page.currentPage) + 1)}"><i data-page="${(Number(page.currentPage) + 1)}"class="fas fa-angle-right"></i></a></li>`;
     } else {
-        str += '<li class="page-item disabled"><span class="page-link"><i class="fas fa-angle-right"></i></span></li>';
+        str += `<li class="page-item disabled"><span class="page-link"><i class="fas fa-angle-right"></i></span></li>`;
     }
 
     pageId.innerHTML = str;
@@ -2779,7 +2770,7 @@ function pageBtn(page) {
 // 換頁
 function switchPage(e) {
     e.preventDefault();
-    var clickTarget = e.target.nodeName;
+    let clickTarget = e.target.nodeName;
     if (clickTarget === 'A' || clickTarget === 'I') {
         dataPerPage = [];
         let targetPage = e.target.dataset.page;
